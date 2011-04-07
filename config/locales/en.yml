@@ -1,0 +1,17 @@
+en: 
+  activerecord:   
+    records: 
+      plugin:
+        event: 
+          description: Events happening for an Item.
+      plugin_setting:
+        display_upcoming_events: 
+          title: Display Upcoming Events
+          description: Display Upcoming Events on Homepage.                  
+    models:
+      plugin_event:
+        one: Event
+        other: Events
+    attributes:
+      plugin_event:
+        title: Title               
