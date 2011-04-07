@@ -8,7 +8,7 @@ class PluginEventsController < ApplicationController
  before_filter :can_group_delete_plugin, :only => [:delete] 
   
   def create
-     @event = PluginEvent.new(params[:event])
+     @event = PluginEvent.new(params[:plugin_event])
      @event.user_id = @logged_in_user.id
      @event.item_id = @item.id
      if @event.save
@@ -35,10 +35,7 @@ class PluginEventsController < ApplicationController
      @event = PluginEvent.find(params[:event_id])
      @site_url = request.env["HTTP_HOST"]
      @posts = PluginEventPost.find(:all, :conditions => ["plugin_event_id = ?", @event.id], :limit => 30) 
-     render :layout => false
-   else # Improper Permissions  
-     flash[:failure] = t("notice.invalid_permissions")           
-   end   
+     render :layout => false  
  end   
 
  def change_approval

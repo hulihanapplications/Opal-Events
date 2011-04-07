@@ -1,0 +1,16 @@
+<div class="box_2" style="padding:5px;float:left;width:200px;margin:2px;" align=center>
+	<h2>
+		<b><%= event.title %></b>
+	</h2>
+	<font size=2 style="font-weight:normal;font-style:italic">
+		<%= friendly_date event.date %>		
+	</font>
+	<%= content_tag(:span, icon("spacer") + " " + PluginEvent.human_attribute_name(:currency) + event.price, :style => "font-weight:bold") unless event.price.blank?  %>
+	
+	<%= content_tag(:span, raw("<hr /> ") +  event.description) unless event.description.blank? %> 
+
+	<% if event.item.is_editable_for_user?(@logged_in_user) %>
+		<hr />
+	    <%= link_to icon("delete") + " " + t("single.delete"), { :action => 'delete', :controller => "plugin_events", :id => event.item.id, :event_id => event.id}, :confirm => t("confirm.item_delete", :item => PluginEvent.model_name.human) %>						
+	<% end %>	
+</div> 

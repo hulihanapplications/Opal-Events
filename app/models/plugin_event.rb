@@ -30,7 +30,8 @@ class PluginEvent < ActiveRecord::Base
   end 
   
   def self.uninstall # uninstall this plugin
-    Plugin.find_by_name("Event").destroy # Delete Plugin Record
+    plugin = Plugin.find_by_name("Event") # Delete Plugin Record
+    plugin.destroy if plugin
     ActiveRecord::Migration.drop_table :plugin_events if ActiveRecord::Base.connection.tables.include?("plugin_events") # drop table if it exists
     return true
   end

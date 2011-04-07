@@ -1,4 +1,7 @@
 en: 
+  single: 
+    past: Past
+    upcoming: Upcoming
   activerecord:   
     records: 
       plugin:
@@ -14,4 +17,6 @@ en:
         other: Events
     attributes:
       plugin_event:
-        title: Title               
+        title: Title     
+        price: Price
+        currency: $          

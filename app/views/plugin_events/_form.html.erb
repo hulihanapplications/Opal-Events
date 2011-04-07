@@ -1,0 +1,19 @@
+<div>
+	<div class="field">
+		<h3><%= label :plugin_event, :date %></h3>
+		<%= datetime_select :plugin_event, :date, :start_year => Time.now.year %>
+	</div>
+	<div class="field">
+		<h3><%= label :plugin_event, :title %></h3>
+		<%= text_field :plugin_event, :title %>
+	</div>	
+	<div class="field">
+		<h3><%= label :plugin_event, :description %></h3>
+		<%= text_field :plugin_event, :description %>
+	</div>		
+	<div class="field">
+		<h3><%= label :plugin_event, :price %></h3>
+		<%= PluginEvent.human_attribute_name(:currency) %>
+		<%= text_field :plugin_event, :price %>
+	</div>		
+</div>
