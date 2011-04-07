@@ -4,7 +4,7 @@ This is the "Opal":http://www.hulihanapplications.com/projects/opal Plugin for I
 
 This allows you to add events to any item. Good if you're listing entertainment venues, classes, or antything else you might need to schedule. 
 
-h2. Installing
+h2. Install/Uninstall
 
 You can install this Plugin inside Opal, or by using the included rake task:
 
@@ -15,6 +15,7 @@ rake opal:events:install
 See the Opal's "Plugin Guide":http://dev.hulihanapplications.com/wiki/opal/Plugins if you don't know how to install plugins from Opal's Interface.  
 
 Similarly, You can also uninstall it from Opal or by using the rake task:
+
 <pre>
 rake opal:events:uninstall
 </pre>   
