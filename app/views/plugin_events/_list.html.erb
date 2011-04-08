@@ -1,4 +1,3 @@
-<% 	current_events = PluginEvent.find(:all, :conditions => ["item_id = ? and date > ?" , item.id, Time.now.beginning_of_day], :order => "date DESC") %> 
-<% if current_events.size > 0 %>
-	<%= link_to icon("calendar") + " #{current_events.size} #{t("single.upcoming")} #{PluginEvent.model_name.human(:count => :other)}", {:action => "view", :controller => "items", :id => item.id, :anchor => "#{PluginEvent.model_name.human(:count => :other)}"} %>	
-<% end %>
+<% 	current_events = PluginEvent.for_item(item).current.happening_first.approved %> 
+<%= link_to icon("calendar") + " #{current_events.size} #{t("single.upcoming")} #{PluginEvent.model_name.human(:count => current_events.size)}", {:action => "view", :controller => "items", :id => item.id, :anchor => "#{PluginEvent.model_name.human(:count => :other)}"} if current_events.size > 0 %>	
+
