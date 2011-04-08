@@ -5,7 +5,10 @@ class PluginEvent < ActiveRecord::Base
   
   attr_protected :is_approved
   scope :approved, where(:is_approved => "1")
-  
+  scope :happening_first, order("date ASC")
+  scope :current, where(["date >= ?", Time.now.beginning_of_day])
+  scope :past, where(["date < ?", Time.now.beginning_of_day])
+  scope :for_item, lambda{|item| where(:item_id => item.id)}
   
   def self.install # install this plugin
     # Create Database Structure & Records 
