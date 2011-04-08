@@ -1,10 +1,14 @@
 <% 
-	past_events = PluginEvent.find(:all, :conditions => ["item_id = ? and date < ?" ,item.id, Time.now.beginning_of_day], :order => "date DESC")
-%> 
-<% 
-	current_events = PluginEvent.find(:all, :conditions => ["item_id = ? and date > ?" ,item.id, Time.now.beginning_of_day], :order => "date DESC")
+	if item.is_editable_for_user?(@logged_in_user) 
+		past_events = PluginEvent.find(:all, :conditions => ["item_id = ? and date < ?", item.id, Time.now.beginning_of_day], :order => "date DESC")
+		current_events = PluginEvent.find(:all, :conditions => ["item_id = ? and date > ?", item.id, Time.now.beginning_of_day], :order => "date DESC")
+   	else
+		past_events = PluginEvent.find(:all, :conditions => ["item_id = ? and date < ? and is_approved = ?", item.id, Time.now.beginning_of_day, "1"], :order => "date DESC")
+ 		current_events = PluginEvent.find(:all, :conditions => ["item_id = ? and date > ? and is_approved = ?", item.id, Time.now.beginning_of_day, "1"], :order => "date DESC")
+   	end 
+
 	total_events = current_events.size  + past_events.size
-%> 
+%>
 <% if total_events > 0 || item.is_editable_for_user?(@logged_in_user) %>
 	<div class="plugin_box">
 		<a name="<%= PluginEvent.model_name.human(:count => :other) %> "></a>
@@ -17,10 +21,12 @@
 						</h2>										
 					</td>
 					<td align=right>
-						<a href="javascript:toggle_box('new_event_box')" class="plugin_title_link">
-							<%= icon("new") %>
-							<%=  t("label.item_new", :item => plugin.model_name.human) %>
-						</a>	
+						<% if my_group_plugin_permissions[plugin.id].can_create? || item.is_user_owner?(@logged_in_user) || @logged_in_user.is_admin? %>							
+							<a href="javascript:toggle_box('new_event_box')" class="plugin_title_link">
+								<%= icon("new") %>
+								<%=  t("label.item_new", :item => plugin.model_name.human) %>
+							</a>
+						<% end %>	
 					<% if past_events.size > 0 %>
 						<%= icon("spacer") %>
 					   	<a href="javascript:toggle_box('past_events_box')"><%= past_events.size %> <%= t("single.past") %> <%= PluginEvent.model_name.human(:count => :other) %></a>
@@ -45,7 +51,7 @@
 		<% end %>
 		<div class="events">
 			<% for event in current_events %>
-				<%= render :partial => "plugin_events/show", :locals => {:event => event, :my_group_plugin_permissions => my_group_plugin_permissions, :plugin => plugin} %>
+				<%= render :partial => "plugin_events/show", :locals => {:item => item, :event => event, :my_group_plugin_permissions => my_group_plugin_permissions, :plugin => plugin} %>
 			<% end %>
 
 			 <div id="past_events_box" style="display:none;clear:both">
@@ -54,7 +60,7 @@
 			 	</h2>
 				<hr />
 				<% for event in past_events %>
-					<%= render :partial => "plugin_events/show", :locals => {:event => event, :my_group_plugin_permissions => my_group_plugin_permissions, :plugin => plugin} %>
+					<%= render :partial => "plugin_events/show", :locals => {:item => item, :event => event, :my_group_plugin_permissions => my_group_plugin_permissions, :plugin => plugin} %>
 				<% end %>
 			 </div>
 		</div>
