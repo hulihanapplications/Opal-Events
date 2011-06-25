@@ -1,4 +1,6 @@
 class PluginEvent < ActiveRecord::Base
+  acts_as_opal_plugin
+
   belongs_to :plugin
   belongs_to :item
   belongs_to :user
@@ -42,13 +44,4 @@ class PluginEvent < ActiveRecord::Base
     ActiveRecord::Migration.drop_table :plugin_events if ActiveRecord::Base.connection.tables.include?("plugin_events") # drop table if it exists
     return true
   end
-  
-  
-  def is_approved?
-     if self.is_approved == "1"
-       return true
-     else # not approved
-       return false
-     end
-  end  
 end
