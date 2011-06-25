@@ -4,7 +4,8 @@ class PluginEvent < ActiveRecord::Base
   belongs_to :plugin
   belongs_to :item
   belongs_to :user
-  
+  Item.send(:has_many, :plugin_events, :dependent => :destroy) if table_exists? # automatically create a has_many association for Item
+
   attr_protected :is_approved
   scope :approved, where(:is_approved => "1")
   scope :happening_first, order("date ASC")
